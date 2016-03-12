@@ -4,13 +4,16 @@ from firebase import firebase
 from multiprocessing import Process, Pipe
 
 firebase = firebase.FirebaseApplication('https://hackalexa.firebaseio.com', None)
-
+db = '/test/'
+var = 'isAsked'
 
 def is_asked(conn):
     while(True):
-        isAsked = firebase.get('/test/isAsked', None)        
+        isAsked = firebase.get(db+var, None)        
         conn.send(isAsked)
-
+#        if (isAsked == True):
+#            conn.close()
+#            break
 
 if __name__ == '__main__':    
     parent_conn, child_conn = Pipe()
@@ -27,9 +30,11 @@ if __name__ == '__main__':
         print recvSignal
         #if cv2.waitKey(1) & 0xFF == ord('q'):
         if cv2.waitKey(1) & recvSignal == True:
-            get_color_p = Process(target=color_detect, args(frame,))
-            get_color_p.start()
+#            get_color_p = Process(target=color_detect, args(frame,))
+#            get_color_p.start()
+            break
     
+    p.join()   
     cap.release()
     cv2.destroyAllWindows()
     print 'end'
