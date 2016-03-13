@@ -149,18 +149,7 @@ HelloWorld.prototype.intentHandlers = {
     },
     "ShowVisitors": function (intent, session, response) {
 
-        childRefFace.update({
-            "playVideo":"true"
-        });
 
-        speechOutput={    
-            speech: "Here is the video",
-            type: AlexaSkill.speechOutputType.PLAIN_TEXT
-        };
-        response.ask(speechOutput);
-
-        
-        console.log("OUT!!!!!!!!!!!!!!!!!!!!!");
     },
     "Negative": function (intent, session, response) {
         speechOutput={
