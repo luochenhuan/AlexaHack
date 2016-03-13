@@ -1,4 +1,4 @@
-from webCamColorReader import WebCamColorReader
+from imgColorReader import ImgColorReader
 
-color = WebCamColorReader.readColorFromWebCam()
+color = ImgColorReader.readColorFromWebCam()
 print(color)
