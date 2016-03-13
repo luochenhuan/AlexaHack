@@ -68,7 +68,7 @@ class ColorThief(object):
         pixel_count = width * height
         valid_pixels = []
         for i in range(0, pixel_count, quality):
-            r, g, b, a = pixels[i]
+            b,g,r, a = pixels[i]
             # If pixel is mostly opaque and not white
             if a >= 125:
                 if not (r > 250 and g > 250 and b > 250):

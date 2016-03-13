@@ -2,41 +2,34 @@ from PIL import Image
 from PIL import ImageDraw
 from colorthief import ColorThief
 import cv2
+
 import time
 import colorsys
 
-class WebCamColorReader(object):
+class ImgColorReader(object):
 
     @staticmethod
-    def readColorFromWebCam():
-        cap = cv2.VideoCapture(0)
-        if (cap.isOpened() == False):
-          print("fail to open camera")
-        else:
-            time.sleep( 0.1 );
-            ret, frame = cap.read()
-            frame = cv2.flip(frame,1)
+    def readMainColorOfPicture(frame):
+        frame = cv2.flip(frame,1)
+        height, width, channels = frame.shape
 
-            cv2_im = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
-            pil_im = Image.fromarray(cv2_im)
+        frame = frame[height/3:height*2/3,width/3:width*2/3]
+        pil_im = Image.fromarray(frame)
+        color_thief = ColorThief(pil_im)
+        rgb=color_thief.get_color(quality=1)
+        # print(rgb)
+        # print(ColorReader.rgb_to_hsl(rgb))
+        # print(color_thief.get_palette(quality=1))
+        hsv = ImgColorReader.rgb_to_hue(rgb)
+        # print(hsv[0]*360)
+        hueName = ImgColorReader.hue_to_name(hsv[0] * 360)
 
-            cap.release()
-
-            color_thief = ColorThief(pil_im)
-            rgb=color_thief.get_color(quality=1)
-            # print(rgb)
-            # print(ColorReader.rgb_to_hsl(rgb))
-            # print(color_thief.get_palette(quality=1))
-            hsv = WebCamColorReader.rgb_to_hue(rgb)
-            print(hsv[0]*360)
-            hueName = WebCamColorReader.hue_to_name(hsv[0] * 360)
-
-            draw = ImageDraw.Draw(pil_im)
-            box = (0,0,40,40)
-            draw.rectangle(box,rgb)
-            del draw
-            pil_im.show()
-            return hueName
+        draw = ImageDraw.Draw(pil_im)
+        box = (0,0,40,40)
+        draw.rectangle(box,rgb)
+        del draw
+        # pil_im.show()
+        return hueName
 
     @staticmethod
     def rgb_to_hue(rgb):
