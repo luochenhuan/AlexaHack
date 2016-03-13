@@ -12,10 +12,9 @@ video_path = os.path.join(pwd,'videos')
 face_xml = os.path.join(pwd,'haarcascade_frontalface_default.xml')
 face_cascade = cv2.CascadeClassifier(face_xml)
 
-fps = 16.0
+fps = 20.0
 THRESH_HOLD = 16
-def record(camera):
-     cv2.imshow('frame',frame)
+
     
 if __name__ == '__main__':
     camera = cv2.VideoCapture(0)
