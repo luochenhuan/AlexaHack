@@ -1,0 +1,38 @@
+{
+  "intents": [
+    {
+      "intent": "GetColor",
+      "slots": [
+        {
+          "name": "Color",
+          "type": "LIST_OF_COLORS"
+        }
+      ]
+    },
+    {
+      "intent": "TestColor",
+      "slots": [
+        {
+          "name": "Color",
+          "type": "LIST_OF_COLORS"
+        }
+      ]
+    },
+    {
+      "intent": "MatchSign",
+      "slots": [
+        {
+          "name": "FirstSign",
+          "type": "LIST_OF_SIGNS"
+        },
+        {
+          "name": "SecondSign",
+          "type": "LIST_OF_SIGNS"
+        }
+      ]
+    },
+    {
+      "intent": "GetLuckyNumbers"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+GetColor what color is it
+
+TestColor is it {Color}
+TestColor are these {Color}
+
+GetLuckyNumbers what are my lucky numbers
+GetLuckyNumbers tell me my lucky numbers
+
+MatchSign do {FirstSign} and {SecondSign} get along
+MatchSign what is the relationship between {FirstSign} and {SecondSign}
