@@ -149,7 +149,7 @@ HelloWorld.prototype.intentHandlers = {
     },
     "ShowVisitors": function (intent, session, response) {
         var speechOutput;
-        childRefTest.on("value", function(snapshot) {
+        childRefFace.on("value", function(snapshot) {
             console.log(snapshot.val());
             childRefFace.update({
                 "playVideo":true
@@ -158,18 +158,30 @@ HelloWorld.prototype.intentHandlers = {
                 speech: "Here is the video",
                 type: AlexaSkill.speechOutputType.PLAIN_TEXT
             };
+            childRefFace.off("value");
             response.ask(speechOutput);
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });
+
     },
-    "Negative": function (intent, session, response) {
+        "ShowVisitors": function (intent, session, response) {
         var speechOutput;
-        speechOutput={
-            speech: "That's fine!",
-            type: AlexaSkill.speechOutputType.PLAIN_TEXT            
-        };
-        response.ask(speechOutput);
+        childRefFace.on("value", function(snapshot) {
+            console.log(snapshot.val());
+            childRefFace.update({
+                "playVideo":true
+            });
+            speechOutput={
+                speech: "Here is the video",
+                type: AlexaSkill.speechOutputType.PLAIN_TEXT
+            };
+            childRefFace.off("value");
+            response.ask(speechOutput);
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+
     },
     "AMAZON.HelpIntent": function (intent, session, response) {
         response.ask("What color is it", "What color is it");
