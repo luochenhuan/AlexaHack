@@ -148,38 +148,18 @@ HelloWorld.prototype.intentHandlers = {
         });
     },
     "ShowVisitors": function (intent, session, response) {
-        speechOutput={
-            speech: "Sure, here is the video!!",
-            type: AlexaSkill.speechOutputType.PLAIN_TEXT            
-        };
 
-        if (childRefFace == null) {console.log("childRefFace is null");};
         childRefFace.update({
             "playVideo":"true"
         });
 
-        // childRefFace.on("value", function(snapshot) {
-        //     console.log(snapshot.val().playVideo+"change true before");
-        //     if (snapshot.val().playVideo === false) {
-
-        //     }
-        //     console.log(snapshot.val().playVideo+"change true after");
-        // }, function (errorObject) {
-        //     console.log("The read failed: " + errorObject.code);
-        // });
-
-        // childRefFace.on("value", function(snapshot) {
-        //     console.log(snapshot.val().playVideo+"change false before");
-        //     if (snapshot.val().playVideo === true) {
-        //        childRefFace.update({
-        //            playVideo:false
-        //        });
-        //     console.log(snapshot.val().playVideo+" change false after");
-        //     }
-        // }, function (errorObject) {
-        //     console.log("The read failed: " + errorObject.code);
-        // });
+        speechOutput={    
+            speech: "Here is the video",
+            type: AlexaSkill.speechOutputType.PLAIN_TEXT
+        };
         response.ask(speechOutput);
+
+        
         console.log("OUT!!!!!!!!!!!!!!!!!!!!!");
     },
     "Negative": function (intent, session, response) {
