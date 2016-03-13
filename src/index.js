@@ -29,7 +29,8 @@ var APP_ID = "amzn1.echo-sdk-ams.app.7af5499a-1204-486a-9079-e56711cd18cd";
 var AlexaSkill = require('./AlexaSkill');
 var Firebase = require("./node_modules/firebase/lib/firebase-node");
 var rootRef = new Firebase('https://hackalexa.firebaseio.com');
-var childRef = rootRef.child('test');
+var childRefTest = rootRef.child('test');
+var childRefFace = rootRef.child('face');
 
 /**
  * HelloWorld is a child of AlexaSkill.
@@ -63,6 +64,18 @@ HelloWorld.prototype.eventHandlers.onSessionEnded = function (sessionEndedReques
         + ", sessionId: " + session.sessionId);
     // any cleanup logic goes here
 
+        // // reset the DB
+        // childRefFace.on("value", function(snapshot) {
+        //     if (snapshot.val().playVideo === false) {
+        //        childRefFace.update({
+        //            playVideo:false
+        //            numOfVisitors:0
+        //        });
+        //     }
+        // }, function (errorObject) {
+        //     console.log("The read failed: " + errorObject.code);
+        // });
+
     //childRef.update({
     //    isAsked2: false
     //});
@@ -72,7 +85,7 @@ HelloWorld.prototype.intentHandlers = {
     // register custom intent handlers
     "GetColor": function (intent, session, response) {
         var color = null;
-        childRef.on("value", function(snapshot) {
+        childRefTest.on("value", function(snapshot) {
             //if (snapshot.val().isAsked2 === false) {
             //    childRef.update({
             //        isAsked2: true
@@ -93,7 +106,7 @@ HelloWorld.prototype.intentHandlers = {
         var colorSlot = intent.slots.Color.value;
         var color = null;
         var speechOutput;
-        childRef.on("value", function(snapshot) {
+        childRefTest.on("value", function(snapshot) {
             color = snapshot.val().color;
             console.log("Input type: " + typeof colorSlot + ", Database type: " + typeof color);
             if (colorSlot === color) {
@@ -111,6 +124,70 @@ HelloWorld.prototype.intentHandlers = {
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });
+    },
+    "GetFace": function (intent, session, response) {
+        var numOfVisitors = null;
+        var speechOutput;
+        childRefFace.on("value", function(snapshot) {
+            numOfVisitors = snapshot.val().numOfVisitors;
+            // console.log("Input type: " + typeof colorSlot + ", Database type: " + typeof color);
+            if (numOfVisitors === 0) {
+                 speechOutput={
+                    speech: "Unfortunately, there are no visitors",
+                    type: AlexaSkill.speechOutputType.PLAIN_TEXT
+                };
+            } else {
+                speechOutput={
+                    speech: "There are " + numOfVisitors + " visitors, do you want me to show you the visitors? ",
+                    type: AlexaSkill.speechOutputType.PLAIN_TEXT
+                };
+            }
+            response.ask(speechOutput);
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
+        });
+    },
+    "ShowVisitors": function (intent, session, response) {
+        speechOutput={
+            speech: "Sure, here is the video!!",
+            type: AlexaSkill.speechOutputType.PLAIN_TEXT            
+        };
+
+        if (childRefFace == null) {console.log("childRefFace is null");};
+        childRefFace.update({
+            "playVideo":"true"
+        });
+
+        // childRefFace.on("value", function(snapshot) {
+        //     console.log(snapshot.val().playVideo+"change true before");
+        //     if (snapshot.val().playVideo === false) {
+
+        //     }
+        //     console.log(snapshot.val().playVideo+"change true after");
+        // }, function (errorObject) {
+        //     console.log("The read failed: " + errorObject.code);
+        // });
+
+        // childRefFace.on("value", function(snapshot) {
+        //     console.log(snapshot.val().playVideo+"change false before");
+        //     if (snapshot.val().playVideo === true) {
+        //        childRefFace.update({
+        //            playVideo:false
+        //        });
+        //     console.log(snapshot.val().playVideo+" change false after");
+        //     }
+        // }, function (errorObject) {
+        //     console.log("The read failed: " + errorObject.code);
+        // });
+        response.ask(speechOutput);
+        console.log("OUT!!!!!!!!!!!!!!!!!!!!!");
+    },
+    "Negative": function (intent, session, response) {
+        speechOutput={
+            speech: "That's fine!",
+            type: AlexaSkill.speechOutputType.PLAIN_TEXT            
+        };
+        response.ask(speechOutput);
     },
     "AMAZON.HelpIntent": function (intent, session, response) {
         response.ask("What color is it", "What color is it");
