@@ -148,21 +148,23 @@ HelloWorld.prototype.intentHandlers = {
         });
     },
     "ShowVisitors": function (intent, session, response) {
-
-        childRefFace.update({
-            "playVideo":"true"
+        var speechOutput;
+        childRefTest.on("value", function(snapshot) {
+            console.log(snapshot.val());
+            childRefFace.update({
+                "playVideo":true
+            });
+            speechOutput={
+                speech: "Here is the video",
+                type: AlexaSkill.speechOutputType.PLAIN_TEXT
+            };
+            response.ask(speechOutput);
+        }, function (errorObject) {
+            console.log("The read failed: " + errorObject.code);
         });
-
-        speechOutput={    
-            speech: "Here is the video",
-            type: AlexaSkill.speechOutputType.PLAIN_TEXT
-        };
-        response.ask(speechOutput);
-
-        
-        console.log("OUT!!!!!!!!!!!!!!!!!!!!!");
     },
     "Negative": function (intent, session, response) {
+        var speechOutput;
         speechOutput={
             speech: "That's fine!",
             type: AlexaSkill.speechOutputType.PLAIN_TEXT            
