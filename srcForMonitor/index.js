@@ -119,7 +119,7 @@ HelloWorld.prototype.intentHandlers = {
             });
             if (num<=numOfVisitors) {
                 speechOutput={
-                    speech: "Here is the video ",
+                    speech: "Here is the video",
                     type: AlexaSkill.speechOutputType.PLAIN_TEXT
                 };
                 childRefFace.off("value");
