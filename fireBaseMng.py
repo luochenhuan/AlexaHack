@@ -7,7 +7,7 @@ tableUrl = userUrl + repoName
 
 
 existVisitorVar = 'existVisitor'
-toPlayVideoVar = 'testPlayVideo'
+toPlayVideoVar = 'playVideo'
 lastTimeVisitedVar = 'lastTimeVisited'
 numOfVisitorsVar = 'numOfVisitors'
 playIndexVar = 'playIndex'
@@ -28,7 +28,7 @@ class FireBaseMng(threading.Thread):
         self.setter(self, existVisitorVar,value)
 
     def setToPlayVideoVar(self,value):
-        self.setter(self, toPlayVideoVar,value)
+        self.setter(toPlayVideoVar,value)
 
     def getToPlayVideoVar(self):
         result = self.getter(toPlayVideoVar)

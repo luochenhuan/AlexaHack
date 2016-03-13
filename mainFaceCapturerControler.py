@@ -5,6 +5,7 @@
 
 import time
 import thread
+import threading
 import cv2
 from ThreadPlayVideo import VideoPlayer
 
@@ -16,8 +17,9 @@ def getToPlayVideoVar():
     print('getToPlayVideoVar is running')
     while (True):
         b = fbm.getToPlayVideoVar()
+        # print("b is "+str(b))
         if b==True:
-            print('toPlayVideo is '+str(b))
+            # print('toPlayVideo is '+str(b))
             fbm.setToPlayVideoVar(False)
             VideoPlayer()
 
@@ -26,19 +28,23 @@ def runFaceCapturer(camera):
     print('runFaceCapturer is running')
     FaceDetector(camera)
 
+
 def runNumFile():
     print("runNumFile is running")
     NumFile()
 
-
-
 if __name__ == '__main__':
     print("run main")
+
     fbm = FireBaseMng()
     camera = cv2.VideoCapture(0)
-    thread.start_new_thread( getToPlayVideoVar, () )
+
     thread.start_new_thread( runFaceCapturer, (camera,) )
     thread.start_new_thread( runNumFile, () )
-    while(True):
-        time.sleep(100)
-
+    try:
+        getToPlayVideoVar()
+        while(True):
+            time.sleep(100)
+    finally:
+        cv2.destroyAllWindows()
+        camera.release()

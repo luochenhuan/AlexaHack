@@ -149,35 +149,36 @@ HelloWorld.prototype.intentHandlers = {
     },
     "ShowVisitors": function (intent, session, response) {
         var speechOutput;
+        var num;
+        var numOfVisitors;
         childRefFace.on("value", function(snapshot) {
             console.log(snapshot.val());
+            num = snapshot.val().playIndex;
+            numOfVisitors = snapshot.val().numOfVisitors;
             childRefFace.update({
                 "playVideo":true
             });
-            speechOutput={
-                speech: "Here is the video",
-                type: AlexaSkill.speechOutputType.PLAIN_TEXT
-            };
-            childRefFace.off("value");
-            response.ask(speechOutput);
-        }, function (errorObject) {
-            console.log("The read failed: " + errorObject.code);
-        });
-
-    },
-        "ShowVisitors": function (intent, session, response) {
-        var speechOutput;
-        childRefFace.on("value", function(snapshot) {
-            console.log(snapshot.val());
-            childRefFace.update({
-                "playVideo":true
-            });
-            speechOutput={
-                speech: "Here is the video",
-                type: AlexaSkill.speechOutputType.PLAIN_TEXT
-            };
-            childRefFace.off("value");
-            response.ask(speechOutput);
+            if (num<=numOfVisitors) {
+                speechOutput={
+                    speech: "Here is the video",
+                    type: AlexaSkill.speechOutputType.PLAIN_TEXT
+                };
+                childRefFace.off("value");
+                response.ask(speechOutput);
+            }else{
+                speechOutput={
+                    speech: "No more videos, start from the first one",
+                    type: AlexaSkill.speechOutputType.PLAIN_TEXT
+                };
+                childRefFace.off("value");
+                response.ask(speechOutput);
+                childRefFace.update({
+                // "numOfVisitors":0,
+                    "playIndex":1
+                });
+            }
+            // childRefFace.off("value");
+            // response.ask(speechOutput);
         }, function (errorObject) {
             console.log("The read failed: " + errorObject.code);
         });

@@ -32,8 +32,6 @@ class FaceDetector(threading.Thread):
         noFileOpen = True
         filename = None
         count = 0
-        cv2.startWindowThread()
-        cv2.namedWindow(imageFrame)
 
         if (camera.isOpened() == False):
             print("fail to open camera")
@@ -51,11 +49,12 @@ class FaceDetector(threading.Thread):
 
                 # Draw rectangles around the faces
                 if faces != ():
+
     #                for (x, y, w, h) in faces:
     #                    cv2.rectangle(frame, (x, y), (x+w, y+h), (255,0,0),2)
                     count = 0
                     if noFileOpen == True:
-                        print("new file")
+
                         filename = os.path.join(self.video_path,time.strftime("%m-%d-%H-%M-%S") + '.avi')
                         out = cv2.VideoWriter(filename,fourcc, fps, ((width,height)))
                         noFileOpen = False
@@ -63,6 +62,7 @@ class FaceDetector(threading.Thread):
                     out.write(frame)
                 # nobody
                 else:
+
                     if noFileOpen == False:
                         count = count+1
                         if count >= THRESH_HOLD:
@@ -70,10 +70,10 @@ class FaceDetector(threading.Thread):
                             out.release()
                             noFileOpen = True
                             count = 0
-                cv2.imshow(imageFrame,frame)
-                if cv2.waitKey() & 0xFF == ord('q'):
-                    print('quit')
-                    break
+                # cv2.imshow(imageFrame,frame)
+                # if cv2.waitKey() & 0xFF == ord('q'):
+                #     print('quit')
+                #     break
 
         # cv2.destroyAllWindows()
 
