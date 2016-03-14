@@ -127,6 +127,9 @@ HelloWorld.prototype.intentHandlers = {
     },
     "AMAZON.HelpIntent": function (intent, session, response) {
         response.ask("What color is it", "What color is it");
+    },
+    "Random": function (intent, session, response) {
+        response.ask("What color is it", "What color is it");
     }
 };
 

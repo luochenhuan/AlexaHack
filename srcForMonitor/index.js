@@ -187,7 +187,10 @@ HelloWorld.prototype.intentHandlers = {
         });
     },
     "AMAZON.HelpIntent": function (intent, session, response) {
-        response.ask("What color is it", "What color is it");
+        response.ask("you can say I am going out or, who came by", "you can say I am going out or, who came by");
+    },
+    "Random": function (intent, session, response) {
+        response.ask("you can say I am going out or, who came by", "you can say I am going out or, who came by");
     }
 };
 
